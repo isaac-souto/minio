@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  proxy:
+    image: nginx:alpine
+    volumes:
+      - ./proxy/conf.d:/etc/nginx/conf.d/
+    ports:
+      - 80:80
+      - 9001:9001
+      - 9000:9000
+    depends_on:
+      - api
+      - minio
+    networks:
+      - proxy
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      MINIO_ENDPOINT: localhost:9000
+      MINIO_ENDPOINT_PROXY: proxy:9000
+      MINIO_ACCESSKEY: Zu8VgBoZMU2xcmOEeS70
+      MINIO_SECRETKEY: Zu8VgBoZMU2xcmOEeS70
+      MINIO_BUCKET_FILES: files
+    depends_on:
+      - minio
+    networks:
+      - proxy
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ACCESS_KEY: Zu8VgBoZMU2xcmOEeS70
+      MINIO_SECRET_KEY: Zu8VgBoZMU2xcmOEeS70
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    driver: bridge

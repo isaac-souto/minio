@@ -1,0 +1,25 @@
+{
+  "profiles": {
+    "MinioApi": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"        
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5015"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:4322",
+      "sslPort": 0
+    }
+  }
+}
